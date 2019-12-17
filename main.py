@@ -46,29 +46,19 @@ def best_classifier(X_X, y, X_test, y_test):
     precision, recall, thresholds = metrics.precision_recall_curve(y_test, ey)
     confusion_matriz = metrics.confusion_matrix(y_test, prediction)
     matriz_normalizada = metrics.confusion_matrix(y_test, prediction, normalize='true')
-
-    ## TODO: Averiguar el valor umbral
-    count = 0
-    for i in precision:
-        count = count + 1
-        if i == 0.9879732739420936:
-            print("Umbral: ", thresholds[count-1])
-            break
+    accuracy = metrics.accuracy_score(y_test, prediction)
 
     print(colored("------Mejor sistema de aprendizaje---", 'green'))
     print(">> Modelo: ", learner, "<<")
     print(">> Laplace: ", laplace, "<<")
     print("F1_score: ", f1score)
-    print("Mejor umbral: ", thresholds)
-    """print("Precision: ", precision)
-    print("Recall: ", recall)
-    print("Umbral: ", thresholds)"""
+    print("Precision: ", accuracy)
     print("Confusion matrix: \n", confusion_matriz)
     print("Normalized confusion matrix: \n", matriz_normalizada)
     print("-------------------------------------")
 
     #Dibujar (o no) las metricas
-    """drawn = "a"
+    drawn = "a"
 
     while drawn != "yes" and drawn != "no":
         print("Desea dibujar la grafica precision_recall y la matriz de confusion?\nEscribe \"yes\" o \"no\"")
@@ -82,7 +72,7 @@ def best_classifier(X_X, y, X_test, y_test):
 
 
         metrics.plot_precision_recall_curve(classifier, X_test, y_test)
-        plt.show()"""
+        plt.show()
 ######################################################
 # Main
 ######################################################
