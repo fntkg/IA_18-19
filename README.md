@@ -1,5 +1,5 @@
 # IA_TP6_2
-Practicas y tp6 de ia del curso 18-19
+tp6 de inteligencia artificial del curso 19-20
 
 los emails vienen de [la bbdd de aueb](http://www.aueb.gr/users/ion/data/enron-spam/)
   se descargan los 6 enron y se descomprimen todos en la misma carpeta.
