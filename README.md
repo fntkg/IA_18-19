@@ -6,7 +6,8 @@ Los emails vienen de [la bbdd de aueb](http://www.aueb.gr/users/ion/data/enron-s
   
   El resultado final tiene que ser algo asi:
   ```
-⋊> ~/A/temp on master ◦ ls -1                                                                                                                                                                                                         20:01:21
+⋊> ~/A/temp on master ◦ ls -1
+20:01:21
 Enron1/
 Enron2/
 Enron3/
