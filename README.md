@@ -6,13 +6,14 @@ Los emails vienen de [la bbdd de aueb](http://www.aueb.gr/users/ion/data/enron-s
   
   El resultado final tiene que ser algo asi:
   ```
-⋊> ~/A/temp on master ◦ ls -1
-Enron1/
-Enron2/
-Enron3/
-Enron4/
-Enron5/
-Enron6/ 
+⋊> ~/A/temp on master ◦ tree
+.
+├── Enron1
+├── Enron2
+├── Enron3
+├── Enron4
+├── Enron5
+└── Enron6
 ```
  Modificar en `load_mails.py`, `linea 35` la ruta de acceso a los emails.
  > En el mismo directorio en el que se encuentran los emails se puede hacer `pwd` y copiar la salida del comando.
