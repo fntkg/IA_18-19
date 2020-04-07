@@ -1,0 +1,52 @@
+PROBLEMA| PROFUNDIDAD| EXPAND| Q.SIZE| MAXQS|TIEMPO(ms)
+====================================================
+BFS-G-3 |  		    3|	    5|      4|	   5|	 23
+BFS-T-3 | 	 	    3|	    6|	    9|	  10|	 18
+DFS-G-3 | 	    59123| 120491|  39830| 42913|  1990
+DFS-T-3 |         ---|    ---|    ---|   ---|   (1) Al ser recorrido en arbol, se queda en bucles durante demasiado tiempo.
+DLS-9-3 |		    9|	   10|		0|	   0|    16
+DLS-3-3 |		    3|	    4|		0|	   0|	 15
+IDS-3   |		    3|		9|		0|	   0|	  1
+UCS-G-3 |		    3|	   16|		9|	  10|	 31
+UCS-T-3 |		    3|	   32|	   57|	  58|	 31
+====================================================
+BFS-G-9 |		    9|	  288|	  198|	 199|	 31
+BFS-T-9 |		    9|	 5821|	11055| 11056|	 63
+DFS-G-9 |		44665| 141452|	32012| 42967|  1549
+DFS-T-9 |         ---|    ---|    ---|   ---|   (1) Al ser recorrido en arbol, se queda en bucles durante demasiado tiempo.
+DLS-9-9 |		    9|	 5474|		0|	   0|    47
+DLS-3-9 |		    0|	   12|		0|	   0|    15(2) No encuentra la solucion (Profundidad 3 no es admisible para una solución de profundidad 9)
+IDS-9   |		    9|	 9063|		0|	   0|	 63
+UCS-G-9 |		    9|	  385|	  235|	 239|	 46
+UCS-T-9 |		    9|	18070|	31593| 31594|	109
+====================================================
+BFS-G-30|		   30| 181058|	  365| 24048|	828
+BFS-T-30|         ---|    ---|    ---|   ---|   (1) Al ser recorrido en arbol, se queda en bucles durante demasiado tiempo.
+DFS-G-30|		62856|	80569|	41533| 41534|  1816
+DFS-T-30|         ---|    ---|    ---|   ---|   (1) Al ser recorrido en arbol, se queda en bucles durante demasiado tiempo.
+DLS-9-30|		    0|	 4681|		0|	   0|	 47(2) No encuentra la solución (Profundidad 9 no es admisible para una solución de profundidad 30)
+DLS-3-30|		    0|		9|		0|	   0|	 16(2) No encuentra la solución (Profundidad 3 no es admisible para una solución de profundidad 30)
+IDS-30  |         ---|    ---|    ---|   ---|   (3) Se va por una rama que no es la adecuada por lo que tarda demasiado en encontrar una solución.
+UCS-G-30|		   30| 181390|	   49| 24209|	827
+UCS-T-30|         ---|    ---|    ---|   ---|   (1) Al ser recorrido en arbol, se queda en bucles durante demasiado tiempo.
+====================================================
+Para el puzzle con la solución a 3 pasos se puede ver que el algoritmo mas eficiente 
+    respecto al tiempo es el algoritmo en profundidad iterativo ya que en tan solo 
+    profundidad 3 ya tiene la solución.
+Si se habla de el mejor algoritmo en términos de espacio en memoria en este caso 
+    se podría indicar el algoritmo en profundidad limitado ya que tan solo 
+    expande 4 nodos
+
+Para el puzzle con la solución a 9 pasos se observa que el algoritmo más rápido 
+    (que finalice en nodo objetivo) es la búsqueda en anchura en grafo y de hecho 
+    también es la mas eficiente a la hora de expandir menos nodos.
+Cabe destacar la cantidad de nodos que ha expandido el algoritmo en profundidad en grafo.
+
+En el caso del puzzle con la solución a 30 pasos hay que destacar que varios algoritmos 
+    no encontraron la solución en un tiempo aceptable.
+Tampoco encontraron la solucion los algoritmos en profundidad limitados (ya que 
+    profundidad 3 o 9 no se encuentra la solucióndel puzzle)
+El algoritmo más rápido fue el algoritmo de coste uniforme en grafo aunque la busqueda 
+    en anchura tardó tan solo un milisegundo mas.
+Ambos algoritmos se han mantenido muy semejantes en el numero de nodos expandidos 
+    teniendo el de coste uniforme una cola mas pequeña.

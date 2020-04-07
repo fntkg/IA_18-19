@@ -1,0 +1,195 @@
+package aima.gui.demo.search;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+
+import aima.core.agent.Action;
+import aima.core.environment.Canibales.CanibalesBoard;
+import aima.core.environment.Canibales.CanibalesFunctionFactory;
+import aima.core.environment.Canibales.CanibalesGoalTest;
+import aima.core.search.framework.Problem;
+import aima.core.search.framework.ResultFunction;
+import aima.core.search.framework.Search;
+import aima.core.search.framework.SearchAgent;
+import aima.core.search.uninformed.DepthLimitedSearch;
+import aima.core.search.uninformed.IterativeDeepeningSearch;
+
+/**
+ * @author German
+ * 
+ */
+
+public class CanibalesDemo {
+	
+	static CanibalesBoard tablaCanibales = new CanibalesBoard();
+
+	public static void main(String[] args) {
+		eightPuzzleDLSDemo();
+		//eightPuzzleIDLSDemo();
+		/*eightPuzzleGreedyBestFirstDemo();
+		eightPuzzleGreedyBestFirstManhattanDemo();
+		eightPuzzleAStarDemo();
+		eightPuzzleAStarManhattanDemo();
+		eightPuzzleSimulatedAnnealingDemo();*/
+	}
+
+	private static void eightPuzzleDLSDemo() {
+		System.out.println("\nCanibalDemo recursive DLS(9) -->");
+		try {
+			long TInicio, TFin, tiempo; //Variables para determinar el tiempo de ejecución
+			TInicio = System.currentTimeMillis(); //Tomamos la hora en que inicio el algoritmo y la almacenamos en la variable inicio
+			Problem problem = new Problem(tablaCanibales, CanibalesFunctionFactory
+					.getActionsFunction(), CanibalesFunctionFactory
+					.getResultFunction(), new CanibalesGoalTest());
+			Search search = new DepthLimitedSearch(9);
+			SearchAgent agent = new SearchAgent(problem, search); //
+			printInstrumentation(agent.getInstrumentation());
+			TFin = System.currentTimeMillis(); //Tomamos la hora en que finalizó el algoritmo y la almacenamos en la variable T
+			tiempo = TFin - TInicio; //Calculamos los milisegundos de diferencia
+			System.out.println("Tiempo: " + tiempo + "ms"); //Mostramos en pantalla el tiempo de ejecución en milisegundos
+			System.out.println("\n");
+			System.out.println("SOLUCION:");
+			System.out.println("GOAL STATE");
+			System.out.println("RIBERA-IZQ                  --RIO-- BOTE M M M C C C  RIBERA-DCH" );
+			System.out.println("CAMINO ENCONTRADO");
+			executeActions(agent.getActions(), problem);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void eightPuzzleIDLSDemo() {
+		System.out.println("\nCanibalDemo Iterative DLS -->");
+		try {
+			Problem problem = new Problem(tablaCanibales, CanibalesFunctionFactory
+					.getActionsFunction(), CanibalesFunctionFactory
+					.getResultFunction(), new CanibalesGoalTest());
+			Search search = new IterativeDeepeningSearch();
+			SearchAgent agent = new SearchAgent(problem, search);
+			executeActions(agent.getActions(), problem);
+			printInstrumentation(agent.getInstrumentation());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/*private static void eightPuzzleGreedyBestFirstDemo() {
+		System.out
+				.println("\nCanibalDemo Greedy Best First Search (MisplacedTileHeursitic)-->");
+		try {
+			Problem problem = new Problem(boardWithThreeMoveSolution,
+					EightPuzzleFunctionFactory.getActionsFunction(),
+					EightPuzzleFunctionFactory.getResultFunction(),
+					new EightPuzzleGoalTest());
+			Search search = new GreedyBestFirstSearch(new GraphSearch(),
+					new MisplacedTilleHeuristicFunction());
+			SearchAgent agent = new SearchAgent(problem, search);
+			printActions(agent.getActions());
+			printInstrumentation(agent.getInstrumentation());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void eightPuzzleGreedyBestFirstManhattanDemo() {
+		System.out
+				.println("\nEightPuzzleDemo Greedy Best First Search (ManhattanHeursitic)-->");
+		try {
+			Problem problem = new Problem(boardWithThreeMoveSolution,
+					EightPuzzleFunctionFactory.getActionsFunction(),
+					EightPuzzleFunctionFactory.getResultFunction(),
+					new EightPuzzleGoalTest());
+			Search search = new GreedyBestFirstSearch(new GraphSearch(),
+					new ManhattanHeuristicFunction());
+			SearchAgent agent = new SearchAgent(problem, search);
+			printActions(agent.getActions());
+			printInstrumentation(agent.getInstrumentation());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void eightPuzzleAStarDemo() {
+		System.out
+				.println("\nEightPuzzleDemo AStar Search (MisplacedTileHeursitic)-->");
+		try {
+			Problem problem = new Problem(random1, EightPuzzleFunctionFactory
+					.getActionsFunction(), EightPuzzleFunctionFactory
+					.getResultFunction(), new EightPuzzleGoalTest());
+			Search search = new AStarSearch(new GraphSearch(),
+					new MisplacedTilleHeuristicFunction());
+			SearchAgent agent = new SearchAgent(problem, search);
+			printActions(agent.getActions());
+			printInstrumentation(agent.getInstrumentation());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void eightPuzzleSimulatedAnnealingDemo() {
+		System.out.println("\nEightPuzzleDemo Simulated Annealing  Search -->");
+		try {
+			Problem problem = new Problem(random1, EightPuzzleFunctionFactory
+					.getActionsFunction(), EightPuzzleFunctionFactory
+					.getResultFunction(), new EightPuzzleGoalTest());
+			SimulatedAnnealingSearch search = new SimulatedAnnealingSearch(
+					new ManhattanHeuristicFunction());
+			SearchAgent agent = new SearchAgent(problem, search);
+			printActions(agent.getActions());
+			System.out.println("Search Outcome=" + search.getOutcome());
+			System.out.println("Final State=\n" + search.getLastSearchState());
+			printInstrumentation(agent.getInstrumentation());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void eightPuzzleAStarManhattanDemo() {
+		System.out
+				.println("\nEightPuzzleDemo AStar Search (ManhattanHeursitic)-->");
+		try {
+			Problem problem = new Problem(random1, EightPuzzleFunctionFactory
+					.getActionsFunction(), EightPuzzleFunctionFactory
+					.getResultFunction(), new EightPuzzleGoalTest());
+			Search search = new AStarSearch(new GraphSearch(),
+					new ManhattanHeuristicFunction());
+			SearchAgent agent = new SearchAgent(problem, search);
+			printActions(agent.getActions());
+			printInstrumentation(agent.getInstrumentation());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	*/
+
+	private static void printInstrumentation(Properties properties) {
+		Iterator<Object> keys = properties.keySet().iterator();
+		while (keys.hasNext()) {
+			String key = (String) keys.next();
+			String property = properties.getProperty(key);
+			System.out.println(key + " : " + property);
+		}
+
+	}
+
+	public static void executeActions(List<Action> actions, Problem problem) {
+		Object initialState = problem.getInitialState();
+		ResultFunction resultFunction = problem.getResultFunction();
+		Object state = initialState;
+		System.out.println("INITIAL STATE");
+		System.out.println(state);
+		for (Action action : actions) {
+		 System.out.println(action.toString());
+		 state = resultFunction.result(state, action);
+		 System.out.println(state);
+		 System.out.println("- - -");
+		}
+		}
+}

@@ -1,0 +1,5 @@
+package jdk.internal.agent.resources;
+
+public class agent {
+
+}

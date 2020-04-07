@@ -1,0 +1,17 @@
+package aima.core.environment.Canibales;
+
+import aima.core.search.framework.GoalTest;
+
+/**
+ * @author German
+ * 
+ */
+public class CanibalesGoalTest implements GoalTest {
+	CanibalesBoard goal = new CanibalesBoard(new String[] { "RIBERA-IZQ", " ", " ", " ", " ", " ", " ", " ", "--RIO--", "BOTE", "M", 
+			"M", "M", "C", "C", "C", "RIBERA-DCH"});
+
+	public boolean isGoalState(Object state) {
+		CanibalesBoard board = (CanibalesBoard) state;
+		return board.equals(goal);
+	}
+}

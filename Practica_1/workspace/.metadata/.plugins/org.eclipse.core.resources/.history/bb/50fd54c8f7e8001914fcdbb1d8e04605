@@ -1,0 +1,199 @@
+package aima.core.environment.eightpuzzle;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import aima.core.agent.Action;
+import aima.core.agent.impl.DynamicAction;
+import aima.core.util.datastructure.XYLocation;
+
+/**
+ * @author Ravi Mohan
+ * @author R. Lunde
+ */
+public class CanibalesBoard {
+
+	public static Action M2C = new DynamicAction("M2C");
+
+	public static Action M2M = new DynamicAction("M2M");
+
+	public static Action M1C = new DynamicAction("M1C");
+
+	public static Action M1M = new DynamicAction("M1M");
+
+	private int[] state;
+
+	//
+	// PUBLIC METHODS
+	//
+
+	public CanibalesBoard() { //0 es orilla izquierda, 1 es orilla derecha (PARA EL BOTE)
+		state = new int[] { 3, 3, 0, 0, 0};
+	}
+
+	public CanibalesBoard(int[] state) {
+		this.state = new int[state.length];
+		System.arraycopy(state, 0, this.state, 0, state.length);
+	}
+
+	public CanibalesBoard(CanibalesBoard copyBoard) {
+		this(copyBoard.getState());
+	}
+
+	public int[] getState() {
+		return state;
+	}
+
+	public void move2C() {
+		if (state[2] == 0) { //Si el bote esta a la izquierda
+			state[1] = state[1] - 2; //Quito 2 canibales de la izquierda
+			state[4] = state [4] + 2; //Añado 2 canibales a la derecha
+			state[2] = 1; //Muevo el bote a la derecha
+		}
+		else {
+			state[1] = state[1] + 2; //	Añado 2 canibales de la izquierda
+			state[4] = state [4] - 2; //Quito 2 canibales a la derecha
+			state[2] = 0; //Muevo el bote a la izquierda
+		}
+	}
+	
+	public void move2M() {
+		if (state[2] == 0) { //Si el bote esta a la izquierda
+			state[0] = state[0] - 2; //Quito 2 misioneros de la izquierda
+			state[3] = state [3] + 2; //Añado 2 misioneros a la derecha
+			state[2] = 1; //Muevo el bote a la derecha
+		}
+		else {
+			state[0] = state[0] + 2; //	Añado 2 misioneros de la izquierda
+			state[3] = state [3] - 2; //Quito 2 misioneros a la derecha
+			state[2] = 0; //Muevo el bote a la izquierda
+		}
+	}
+	
+	public void move1C() {
+		if (state[2] == 0) { //Si el bote esta a la izquierda
+			state[1] = state[1] - 1; //Quito 1 canibales de la izquierda
+			state[4] = state [4] + 1; //Añado 1 canibales a la derecha
+			state[2] = 1; //Muevo el bote a la derecha
+		}
+		else {
+			state[1] = state[1] + 1; //	Añado 1 canibales de la izquierda
+			state[4] = state [4] - 1; //Quito 1 canibales a la derecha
+			state[2] = 0; //Muevo el bote a la izquierda
+		}
+	}
+	
+	public void move1M() {
+		if (state[2] == 0) { //Si el bote esta a la izquierda
+			state[0] = state[0] - 1; //Quito 1 misioneros de la izquierda
+			state[3] = state [3] + 1; //Añado 1 misioneros a la derecha
+			state[2] = 1; //Muevo el bote a la derecha
+		}
+		else {
+			state[0] = state[0] + 1; //	Añado 1 misioneros de la izquierda
+			state[3] = state [3] - 1; //Quito 1 misioneros a la derecha
+			state[2] = 0; //Muevo el bote a la izquierda
+		}
+	}
+
+
+	public boolean canMoveGap(Action where) {
+		boolean retVal = true;
+		if (where.equals(M2C)) {
+			if (state[2] == 0) { //Si el bote esta en la costa izquierda
+				if (state[1] <= 1) { retVal = false; } //No puedo mover 2 canibales si no hay 2 canibales
+				else if (state[4] == 1) { //Si ya hay un canibal en la costa derecha
+					if (state[3] != 3) { retVal = false; } //Tienen que haber 3 misioneros
+				}
+				else { //Si no ningun canibal
+					if (state[3] < 2) { retVal = false; } //Tienen que haber 2 canibales como poco
+				}
+			}
+			else { //Si el bote esta a la derecha
+				if (state[4] <= 1) { retVal = false; }//No puedo mover 2 canibales si no hay 2 canibales
+				else if (state[1] == 1) {
+					if (state[0] != 3) { retVal = false; }
+				}
+				else {
+					if (state[0] < 2) { retVal = false; }
+				}
+			}
+		}
+		if (where.equals(M1C)) {
+			if (state[2] == 0) {
+				if (state[1] == 0) { retVal = false; } //No puedo mover un canibal si no hay ningun canibal
+				else if (state[4] == 2) { //Si ya hay 2 canibales en la costa derecha
+					if (state[3] != 3) { retVal = false; }
+				}
+				else if (state[4] == 1) { //Si ya hay un canibal en la costa derecha
+					if (state[3] < 2) { retVal = false; }
+				}
+				else {
+					if (state[3] == 0) { retVal = false; }
+				}
+			}
+			else {
+				if (state[1] == 0) { retVal = false; } //No puedo mover un canibal si no hay ningun canibal
+				else if (state[1] == 2) { //Si ya hay 2 canibales en la costa izquierda
+					if (state[0] != 3) { retVal = false; }
+				}
+				else if (state[1] == 1) { //Si ya hay un canibal en la costa izquierda
+					if (state[0] < 2) { retVal = false; }
+				}
+				else {
+					if (state[0] == 0) { retVal = false; }
+				}
+			}
+		}
+		return retVal;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (this.getClass() != o.getClass())) {
+			return false;
+		}
+		EightPuzzleBoard aBoard = (EightPuzzleBoard) o;
+
+		for (int i = 0; i < 8; i++) {
+			if (this.getPositionOf(i) != aBoard.getPositionOf(i)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = 17;
+		for (int i = 0; i < 8; i++) {
+			int position = this.getPositionOf(i);
+			result = 37 * result + position;
+		}
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		String retVal = state[0] + " " + state[1] + " " + state[2] + "\n"
+				+ state[3] + " " + state[4] + " " + state[5] + " " + "\n"
+				+ state[6] + " " + state[7] + " " + state[8];
+		return retVal;
+	}
+
+	//
+	// PRIVATE METHODS
+	//
+
+	private int getValueAt(int x) {
+		return state[x];
+	}
+
+	private int getGapPosition() { //CONSEGUIR LA POSICION DEL BOTE
+		return state[2];
+	}
+}

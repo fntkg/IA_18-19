@@ -1,0 +1,209 @@
+package aima.core.environment.Canibales;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import aima.core.agent.Action;
+import aima.core.agent.impl.DynamicAction;
+import aima.core.util.datastructure.XYLocation;
+
+/**
+ * @author German
+ */
+public class Canibales {
+
+	public static Action M2C = new DynamicAction("M2C");
+
+	public static Action M2M = new DynamicAction("M2M");
+
+	public static Action M1C = new DynamicAction("M1C");
+
+	public static Action M1M = new DynamicAction("M1M");
+
+	private String[] state;
+
+	//
+	// PUBLIC METHODS
+	//
+
+	public Canibales() {
+		state = new String[] { "RIBERA-IZQ", "M", "M", "M", "C", "C", "C", "BOTE", "--RIO--", " ", " ", 
+				" ", " ", " ", " ", " ", " RIBERA-DCH"};
+	}
+
+	public Canibales(String[] state) {
+		this.state = new String[state.length];
+		System.arraycopy(state, 0, this.state, 0, state.length);
+	}
+
+	public Canibales(Canibales copyBoard) {
+		this(copyBoard.getState());
+	}
+
+	public String[] getState() {
+		return state;
+	}
+
+	public void moveM2C() { //PARA MOVER 2 CANIBALES
+		int gapPos = getGapPosition(); //Cojemos la posicion del bote
+		if (gapPos == 7) { //Si esta a la izquierda, hay que mover a la derecha.
+			setValue("DCHA", "2C"); //Movemos el bote a la derecha
+			setValue("DCHA", "BOTE");//Movemos el bote a la derecha
+		}
+		else {
+			setValue("IZQ", "2C");
+			setValue("IZQ", "BOTE");
+		}
+	}
+	
+	public void moveM2M() { //PARA MOVER 2 CANIBALES
+		int gapPos = getGapPosition(); //Cojemos la posicion del bote
+		if (gapPos == 7) { //Si esta a la izquierda, hay que mover a la derecha.
+			setValue("DCHA", "2M"); //Movemos los 2 misioneros a la derecha
+			setValue("DCHA", "BOTE");//Movemos el bote a la derecha
+		}
+		else {
+			setValue("IZQ", "2M");
+			setValue("IZQ", "BOTE");
+		}
+	}
+	
+	public void moveM1C() { //PARA MOVER 2 CANIBALES
+		int gapPos = getGapPosition(); //Cojemos la posicion del bote
+		if (gapPos == 7) { //Si esta a la izquierda, hay que mover a la derecha.
+			setValue("DCHA", "1C"); //Movemos el bote a la derecha
+			setValue("DCHA", "BOTE");//Movemos el bote a la derecha
+		}
+		else {
+			setValue("IZQ", "1C");
+			setValue("IZQ", "BOTE");
+		}
+	}
+	
+	public void move1M() { //PARA MOVER 2 CANIBALES
+		int gapPos = getGapPosition(); //Cojemos la posicion del bote
+		if (gapPos == 7) { //Si esta a la izquierda, hay que mover a la derecha.
+			setValue("DCHA", "1M"); //Movemos el bote a la derecha
+			setValue("DCHA", "BOTE");//Movemos el bote a la derecha
+		}
+		else {
+			setValue("IZQ", "1M");
+			setValue("IZQ", "BOTE");
+		}
+	}
+
+	
+
+	public boolean canMoveGap(Action where) {
+		boolean retVal = true;
+		int absPos = getPositionOf("BOTE");
+		if (where.equals(M2C))
+			retVal = (getYCoord(absPos) != 0);
+		else if (where.equals(M2M))
+			retVal = (getYCoord(absPos) != 2);
+		else if (where.equals(M1C))
+			retVal = (getXCoord(absPos) != 0);
+		else if (where.equals(M1M))
+			retVal = (getXCoord(absPos) != 2);
+		return retVal;
+s	}
+
+
+	@Override
+	public String toString() {
+		String retVal = state[0] + " " + state[1] + " " + state[2] + " "
+				+ state[3] + " " + state[4] + " " + state[5] + " " + " "
+				+ state[6] + " " + state[7] + " " + state[8];
+		return retVal;
+	}
+
+	//
+	// PRIVATE METHODS
+	//
+
+	private int getAbsPosition(String x, String val) { //PARA SABER DONDE COLOCAR CADA COSA
+		int position = -1;
+		if (x == "DCHA") { //SI QUEREMOS MOVER ALGO A LA DERECHA
+			if (val == "BOTE") { //SI QUEREMOS MOVER EL BOTE A LA DERECHA
+				position = 9;
+			}
+			else if (val == "C") { //SI QUEREMOS MOVER UN CANIBAL A LA DERECHA
+				boolean done = false;
+				int i = 13;
+				while (!done || i <= 15) {
+					if (state[i] == " ") {
+						position = i;
+						done = true;
+					}
+					i++;
+				}
+			}
+			else {	////SI QUEREMOS MOVER UN MISIONERO A LA DERECHA
+				boolean done = false;
+				int i = 10;
+				while (!done || i <= 12) {
+					if (state[i] == " ") {
+						position = i;
+						done = true;
+					}
+					i++;
+				}
+			}
+		}
+		else { //SI QUEREMOS MOVER ALGO A LA IZQUIERDA
+			if (val == "BOTE") { //SI QUEREMOS MOVER EL BOTE A LA IZQUIERDA
+				position = 7;
+			}
+			else if (val == "C") { //SI QUEREMOS MOVER UN CANIBAL A LA IZQUIERDA
+				boolean done = false;
+				int i = 4;
+				while (!done || i <= 6) {
+					if (state[i] == " ") {
+						position = i;
+						done = true;
+					}
+					i++;
+				}
+			}
+			else {	////SI QUEREMOS MOVER UN MISIONERO A LA IZQUIERDA
+				boolean done = false;
+				int i = 1;
+				while (!done || i <= 13) {
+					if (state[i] == " ") {
+						position = i;
+						done = true;
+					}
+					i++;
+				}
+			}
+		}
+	}
+	
+
+	private int getValueAt(int x, int y) {
+		// refactor this use either case or a div/mod soln
+		return state[getAbsPosition(x, y)];
+	}
+
+	private int getGapPosition() { //PARA SABER DONDE ESTA EL BOTE
+		return getPositionOf("BOTE");
+	}
+
+	private int getPositionOf(String val) {
+		int retVal = -1;
+		for (int i = 0; i < 9; i++) {
+			if (state[i] == val) {
+				retVal = i;
+			}
+		}
+		return retVal;
+	}
+
+	/* @x = lado al que lo quiero poner
+	 * @val = LO que quiero poner al otro lado
+	 */
+	private void setValue(String x, String val) {
+		int absPos = getAbsPosition(x, val);
+		state[absPos] = val;
+	}
+}

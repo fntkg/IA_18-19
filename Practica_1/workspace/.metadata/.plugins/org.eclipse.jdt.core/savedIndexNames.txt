@@ -1,0 +1,9 @@
+INDEX VERSION 1.131+C:\Users\garce\Desktop\UNI\3\InteligenciaArtificial\Practicas\Practica_1\workspace\.metadata\.plugins\org.eclipse.jdt.core
+434025391.index
+548831249.index
+45594173.index
+4130968202.index
+2656002299.index
+2842528100.index
+3333951409.index
+2154710053.index
